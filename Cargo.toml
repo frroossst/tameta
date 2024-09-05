@@ -1,0 +1,22 @@
+cargo-features = ["codegen-backend"]
+[package]
+name = "tameta"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+colored = "2.1.0"
+notify-rust = "4.11.1"
+
+[profile.dev]
+debug = 0
+codegen-backend = "cranelift"
+
+[profile.release]
+opt-level = "z"
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
