@@ -3,7 +3,7 @@ cargo-features = ["codegen-backend"]
 name = "tameta"
 version = "0.1.0"
 edition = "2021"
-license = ["MIT"]
+license = "MIT"
 description = "pomodoro is Italian for tomato, and tameta is Gujarati for tomato"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
