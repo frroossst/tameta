@@ -124,6 +124,7 @@ impl Focus {
     fn start_timer(&self, mut timer: Timer) {
         while timer.tick().is_ok() {
             timer.pretty_print(&self.screen, &self.renderer);
+            println!();
             std::thread::sleep(std::time::Duration::from_secs(1));
             self.screen.clear();
         }
@@ -133,7 +134,7 @@ impl Focus {
         notify_rust::Notification::new()
             .summary("Tameta")
             .body(msg)
-            .timeout(notify_rust::Timeout::Milliseconds(6000))
+            .timeout(notify_rust::Timeout::Milliseconds(12_000))
             .show()
             .unwrap();
     }
