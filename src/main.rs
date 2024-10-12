@@ -178,7 +178,7 @@ fn main() -> std::process::ExitCode {
 struct Font<'a>([&'a str; 5]);
 
 impl<'a> Font<'a> {
-    fn new(s: [&'a str; 5]) -> Font {
+    fn new(s: [&'a str; 5]) -> Font<'a> {
         Font(s)
     }
 }
