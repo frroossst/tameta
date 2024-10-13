@@ -98,9 +98,15 @@ impl Screen {
     }
 }
 
+enum State {
+    Working,
+    Resting,
+}
+
 struct Focus {
     screen: Screen,
     renderer: Renderer,
+    state: State,
 }
 
 impl Focus {
@@ -108,21 +114,42 @@ impl Focus {
         Focus {
             screen: s,
             renderer: r,
+            state: State::Working,
         }
     }
 
-    fn start_session(&self) {
+    fn start_session(&mut self) {
         let timer = Timer::default();
+        self.state = State::Working;
         self.start_timer(timer);
     }
 
-    fn start_rest(&self) {
+    fn start_rest(&mut self) {
         let timer = Timer::rest();
+        self.state = State::Resting;
         self.start_timer(timer);
     }
 
     fn start_timer(&self, mut timer: Timer) {
         while timer.tick().is_ok() {
+            match self.state {
+                State::Working => {
+                    println!("{}", 
+                        colored::Colorize::bold(
+                            colored::Colorize::bright_green("[WORKING]")
+                        )
+                    );
+                },
+                State::Resting => {
+                    println!("{}", 
+                        colored::Colorize::bold(
+                            colored::Colorize::blink(
+                                colored::Colorize::bright_cyan("[RESTING]")
+                            )
+                        )
+                    );
+                },
+            }
             timer.pretty_print(&self.screen, &self.renderer);
             println!();
             std::thread::sleep(std::time::Duration::from_secs(1));
@@ -144,7 +171,7 @@ fn main() -> std::process::ExitCode {
     let screen = Screen::new();
     let renderer = Renderer::new();
 
-    let focus = Focus::new(screen, renderer);
+    let mut focus = Focus::new(screen, renderer);
 
     focus.start_session();
     focus.notify("Your focus session has finished, please take a break!");
