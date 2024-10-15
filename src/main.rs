@@ -186,7 +186,11 @@ fn main() -> std::process::ExitCode {
             colored::Colorize::italic("another"),
             colored::Colorize::bold("Y/n")
         );
-        print!(">>> ");
+        let mut lock = std::io::stdout().lock();
+        use std::io::Write;
+        write!(lock, ">>> ").unwrap();
+        lock.flush().unwrap();
+
         let mut input = std::io::stdin().lock();
         let mut buffer = String::new();
         std::io::BufRead::read_line(&mut input, &mut buffer).unwrap();
